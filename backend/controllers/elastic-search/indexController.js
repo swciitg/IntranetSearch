@@ -1,4 +1,4 @@
-import { client } from "./elasticClientController.js";
+import { client } from "../../config/elasticClient.js";
 
 export const createIndex = async (req, res) => {
   if (!req.body.indexName) {
