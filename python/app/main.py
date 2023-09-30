@@ -51,4 +51,4 @@ def store(req: Details):
     # ? CSV Structure : content,url,embeddings
     df['embeddings'] = df['content'].apply(get_embeddings)
     print(df["embeddings"])
-    return {"msg": "Successfully stored in elastic-search database", "embeddings":df['embeddings'].to_list}
+    return {"msg": "Successfully stored in elastic-search database"}
