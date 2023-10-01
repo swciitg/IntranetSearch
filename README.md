@@ -52,7 +52,7 @@ npm install
 npm start
 ```
 
-7. Go to `\python` folder containing python API endpoints for this project
+7. Go to `python` folder containing python API endpoints for this project
 
 ```
 cd IntranetSearch/python
