@@ -1,6 +1,6 @@
 # Contributing to IntranetSearch
 
-Thank you for considering contributing to the Intranetsearcg! We welcome contributions from the community to help make this project even better. By following these guidelines, you can ensure a smooth and collaborative experience for everyone involved.
+Thank you for considering contributing to the Intranetsearch! We welcome contributions from the community to help make this project even better. By following these guidelines, you can ensure a smooth and collaborative experience for everyone involved.
 
 ## Table of Contents
 
@@ -24,7 +24,7 @@ You can contribute to this repo in several ways:
 
 ## Getting Started
 
-To get started with contributing to CollegeCupid, follow these steps:
+To get started with contributing to IntranetSearch, follow these steps:
 
 1. Fork this repository to your GitHub account.
 2. Clone your forked repository to your local machine and follow the instructions to set this up as in [Readme](README.md)
