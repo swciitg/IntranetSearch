@@ -9,11 +9,9 @@ const __dirname = path.dirname(__filename);
 export const csvSave = async (req, res) => {
   const { csv_name, req_fields } = req.body;
   // csv_name : name of csv_file
-  // req_fields = 0 i.e user wants only content to be saved to csv
-  // req_fields = 1 i.e user wants content and data in csv
-  // req_fields = 2 i.e user wants content, data, and embeddings in csv
+  // req_fields: fields required like ["content", "url"] or ["content"] or ["url"]
 
-  if (!csv_name || (!req_fields && req_fields != 0)) {
+  if (!csv_name || !req_fields) {
     res.status(400).json({
       status: "error",
       data: {
@@ -23,20 +21,26 @@ export const csvSave = async (req, res) => {
     return;
   }
 
-  const fields = []; // fields for csv according to user request
+  const fields = req_fields; // fields for csv according to user request
   const header = []; // header of csv file
 
-  if (req_fields >= 0) {
-    fields.push("content");
-    header.push({ id: "content", title: "content" });
-  }
-  if (req_fields >= 1) {
-    fields.push("url");
-    header.push({ id: "url", title: "url" });
-  }
-  if (req_fields >= 2) {
-    fields.push("embeddings");
-    header.push({ id: "embeddings", title: "embeddings" });
+  for (var i = 0; i < fields.length; i++) {
+    if (fields[i] === "content") {
+      header.push({ id: "content", title: "content" });
+    } else if (fields[i] === "url") {
+      header.push({ id: "url", title: "url" });
+    } else if (fields[i] === "embeddings") {
+      header.push({ id: "embeddings", title: "embeddings" });
+    } else {
+      res.status(400).json({
+        // invalid data send in request body
+        status: "error",
+        data: {
+          msg: "valid fields name are content, url, embeddings array",
+        },
+      });
+      return;
+    }
   }
 
   const filePath = path.join(
@@ -69,7 +73,6 @@ export const csvSave = async (req, res) => {
       status: "error",
       data: {
         msg: error,
-        err: error?.meta?.body?.error?.reason,
       },
     });
   }
