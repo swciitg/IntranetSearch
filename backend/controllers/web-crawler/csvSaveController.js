@@ -87,7 +87,7 @@ export const csvSave = async (req, res) => {
   } catch (error) {
     console.log("ERROR: " + error.message);
 
-    fs.unlink(filePath + "sd", (err) => {
+    fs.unlink(filePath, (err) => {
       if (err && err.code == "ENOENT") {
         // file doesn't exist so no issue
         console.log("File doesn't exist");
