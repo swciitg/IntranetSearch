@@ -13,6 +13,16 @@ export const csvSave = async (req, res) => {
   // req_fields = 1 i.e user wants content and data in csv
   // req_fields = 2 i.e user wants content, data, and embeddings in csv
 
+  if (!csv_name || (!req_fields && req_fields != 0)) {
+    res.status(400).json({
+      status: "error",
+      data: {
+        msg: "File name and fields to be saved are required",
+      },
+    });
+    return;
+  }
+
   const fields = []; // fields for csv according to user request
   const header = []; // header of csv file
 
