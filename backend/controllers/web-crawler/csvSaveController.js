@@ -1,7 +1,9 @@
+import fs from "fs";
 import path from "path";
 import url from "url";
 import { contentModel } from "../../models/contentModel.js";
 import { createObjectCsvWriter, createArrayCsvWriter } from "csv-writer";
+import { log } from "console";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -58,9 +60,24 @@ export const csvSave = async (req, res) => {
     header: header,
   });
 
+  var records = [];
+
   try {
     const allValues = await contentModel.find().select(fields); // fetching from database
-    await csvWriter.writeRecords(allValues); // writing to csv file
+    records = allValues;
+  } catch (error) {
+    console.log("ERROR: " + error.message);
+    res.status(500).json({
+      status: "error",
+      data: {
+        msg: "Error in fetching data from database",
+      },
+    });
+  }
+
+  try {
+    // throw new Error("can't save csv file");
+    await csvWriter.writeRecords(records); // writing to csv file
     res.status(200).json({
       status: "success",
       data: {
@@ -68,11 +85,25 @@ export const csvSave = async (req, res) => {
       },
     });
   } catch (error) {
-    console.log("ERROR: " + error);
-    res.status(400).json({
+    console.log("ERROR: " + error.message);
+
+    fs.unlink(filePath + "sd", (err) => {
+      if (err && err.code == "ENOENT") {
+        // file doesn't exist so no issue
+        console.log("File doesn't exist");
+      } else if (err) {
+        // Error in removing corrupted file
+        console.log("ERROR: Error occured while trying to remove file");
+      } else {
+        // Corrupted file removed
+        console.log("Succesfully removed corrupted file");
+      }
+    });
+
+    res.status(500).json({
       status: "error",
       data: {
-        msg: error,
+        msg: "Error in exporting to csv file",
       },
     });
   }
