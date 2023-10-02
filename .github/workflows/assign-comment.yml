@@ -1,0 +1,29 @@
+name: Assign Commenter
+
+on:
+  issues:
+    types:
+      - assigned
+
+jobs:
+  comment-on-assignment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get assigned user
+        id: assigned_user
+        run: echo "::set-output name=assignee::${{ github.event.issue.assignee.login }}"
+
+      - name: Comment on Issue and Tag Assigned User
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ISSUE_NUMBER=${{ github.event.issue.number }}
+          ASSIGNEE="${{ steps.assigned_user.outputs.assignee }}"
+          COMMENT_BODY="You have been assigned to this issue, @$ASSIGNEE."
+          echo "Commenting on Issue #$ISSUE_NUMBER and tagging @$ASSIGNEE"
+          curl -X POST "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/comments" \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            -d "{\"body\":\"$COMMENT_BODY\"}"
+

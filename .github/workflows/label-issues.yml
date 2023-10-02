@@ -1,0 +1,21 @@
+name: Label New Issues
+
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  label-new-issues:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Add Hacktoberfest Labels
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ISSUE_NUMBER=$(jq -r ".issue.number" "$GITHUB_EVENT_PATH")
+          echo "Adding 'hacktoberfest' and 'hacktoberfest2023' labels to Issue #$ISSUE_NUMBER"
+          curl -X POST "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels" \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -d '["hacktoberfest", "hacktoberfest2023"]'
