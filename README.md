@@ -30,14 +30,7 @@ git clone https://github.com/swciitg/IntranetSearch.git
 cd IntranetSearch/backend
 ```
 
-4. Create `.env` file with following fields:
-
-```
-ELASTIC_USERNAME="username"
-ELASTIC_PASSWORD="password"
-ELASTIC_ENDPOINT="endpointURL"
-PORT=portnum
-```
+4. Create `.env` file with fields as in .env.sample inside `backend` folder
 
 5. Install Node.js dependencies:
 
