@@ -14,6 +14,14 @@ const contentModelSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  heading:{
+    type: String,
+    required: true,
+  },
+  listItems:{
+    type: String,
+    required: true,
+  },
   embeddings: {
     type: [Number],
     required: false,
