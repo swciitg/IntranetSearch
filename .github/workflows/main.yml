@@ -16,6 +16,6 @@ jobs:
       - name: Label PR
         uses: srvaroa/labeler@v0.8
         with:
-          config_path: .github/labeler_config.yml
+          config_path: .github/labeler_configuration.yml
         env:
           GITHUB_TOKEN: ${{ secrets.VIVEK_TOKEN }}
