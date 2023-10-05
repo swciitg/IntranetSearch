@@ -21,6 +21,6 @@ jobs:
         run: |
           PR_NUMBER=$(jq -r ".pull_request.number" "$GITHUB_EVENT_PATH")
           echo "Adding 'hacktoberfest-accepted' label to PR #$PR_NUMBER"
-          curl -X POST "https://api.github.com/repos/${{ github.repository }}/issues/$PR_NUMBER/labels" \
+          curl -X POST "https://api.github.com/repos/${{ github.repository }}/pull/$PR_NUMBER/labels" \
             -H "Authorization: Bearer $GITHUB_TOKEN" \
             -d '["hacktoberfest-accepted"]'
