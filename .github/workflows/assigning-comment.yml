@@ -1,0 +1,22 @@
+name: Commenting on Assigned Issue
+
+on:
+  issues:
+    types:
+      - assigned
+
+jobs:
+  comment-on-assignment:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Comment on Assigned Issue
+      env:
+        GITHUB_TOKEN: ${{ secrets.VIVEK_TOKEN }}
+      run: |
+        assignee="@${{ github.event.issue.assignee.login }}"
+        echo "Hello $assignee! 🚀 This issue has been assigned to you."
+        gh issue comment ${{ github.event.issue.number }} -b "Hello $assignee! 🚀 This issue has been assigned to you."
