@@ -14,4 +14,4 @@ jobs:
       with:
         message: Thanks for taking this issue! Let us know if you have any questions!
         trigger: .take
-        token: ${{ secrets.VIVEK_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
