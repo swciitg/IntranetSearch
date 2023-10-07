@@ -15,7 +15,7 @@ jobs:
 
     - name: Comment on Assigned Issue
       env:
-        GITHUB_TOKEN: ${{ secrets.VIVEK_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       run: |
         assignee="@${{ github.event.issue.assignee.login }}"
         echo "Hello $assignee! 🚀 This issue has been assigned to you."
