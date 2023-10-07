@@ -4,9 +4,10 @@ from pydantic import BaseModel
 import elasticsearch
 from elasticsearch import Elasticsearch
 from elasticsearch import helpers
+import uvicorn
 import pandas as pd
 
-CSV_BASEPATH = "./data/"
+CSV_BASEPATH = "../../data/"
 
 app = FastAPI()
 
@@ -77,3 +78,6 @@ def store(req: Details):
         return {"msg": "Failed to store. Internal Server Error."}
 
     return {"msg": "Successfully stored in elastic-search database"}
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8002)
