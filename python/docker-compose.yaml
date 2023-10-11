@@ -1,0 +1,22 @@
+version: "3.3"
+
+services:
+        intranetsearchnode:
+                build:
+                        context: .
+                        dockerfile: Dockerfile
+                extra_hosts:
+                        - "host.docker.internal:host-gateway"
+                volumes:
+                        - intranetsearchpublic:/app/public
+                        - intranetsearchimages:/app/image_save_folder
+                ports:
+                        - "9020:8002"
+        
+
+volumes:
+        intranetsearchpublic:
+        intranetsearchimages:
+
+
+
