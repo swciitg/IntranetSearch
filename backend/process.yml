@@ -1,0 +1,5 @@
+apps:
+    - name: intranetsearch-node
+      script: ./app.js
+      exec_mode: cluster
+      instances: 3
