@@ -2,8 +2,10 @@ import { PlaywrightCrawler } from 'crawlee';
 import { contentModel } from '../../models/contentModel.js';
 
 export const crawl = async (req, res) => {
+        let count=0;
         const crawlering = new PlaywrightCrawler({
             requestHandler: async ({ page, request, enqueueLinks }) => {
+            count++;
             console.log(`Processing: ${request.url}`);
                 let heading ="";
                 let textContent = "";
@@ -24,17 +26,31 @@ export const crawl = async (req, res) => {
                     listItems: listItems,
                 });
                 await results.save();
-                await page.waitForSelector('a');
-                await enqueueLinks({
-                    selector: 'a',
-                    label: 'LIST',
-                });
+                await enqueueLinks();
             },
     
         // Let's limit our crawls to make our tests shorter and safer.
         maxRequestsPerCrawl: req.body.maxRequests||50,
     });
-    await crawlering.run([req.body.url]);
-    res.send("Crawling done").status(200);
+    try{
+        await  crawlering.run([req.body.url]);
+        console.log(count);
+        res.status(200).json({
+            status: "success",
+            data: {
+              UrlScraped: count,
+            },
+          });
+    }
+    catch(error)
+    {
+        console.log("ERROR: " + error);
+        res.status(400).json({
+            status: "error",
+            data: {
+                msg: error,
+            },
+        });
+    }
 
 };
