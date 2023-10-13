@@ -29,6 +29,12 @@ export const csvSave = async (req, res) => {
       header.push({ id: "content", title: "content" });
     } else if (fields[i] === "url") {
       header.push({ id: "url", title: "url" });
+    }
+    else if (fields[i] === "heading") {
+      header.push({ id: "heading", title: "heading" });
+    }
+    else if (fields[i] === "listItems") {
+      header.push({ id: "listItems", title: "listItems" });
     } else if (fields[i] === "embeddings") {
       header.push({ id: "embeddings", title: "embeddings" });
     } else {
