@@ -62,6 +62,7 @@ services:
                 extra_hosts:
                         - "host.docker.internal:host-gateway"
                 volumes:
+                        - certs:/usr/share/elasticsearch/config/certs
                         - intranetsearchpublic:/app/public
                         - intranetsearchimages:/app/image_save_folder
                 ports:
@@ -69,6 +70,8 @@ services:
         
 
 volumes:
+        certs:
+                driver: local
         intranetsearchpublic:
         intranetsearchimages:
 
