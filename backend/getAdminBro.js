@@ -3,6 +3,8 @@ import AdminBro from "admin-bro";
 import AdminBroExpress from "admin-bro-expressjs";
 import AdminBroMongoose from "admin-bro-mongoose";
 import { contentModel } from "./models/contentModel.js";
+import { link } from "./models/links.js";
+import { PlaywrightCrawler } from 'crawlee';
 
 AdminBro.registerAdapter(AdminBroMongoose);
 const getAdminRouter = (db, mainRouter) => {
@@ -25,6 +27,66 @@ const getAdminRouter = (db, mainRouter) => {
             },
           },
         },
+        resource: link,
+        options: {
+          properties: {
+            _id: {
+              isTitle: true,
+            },
+          },
+          actions: {
+            scrape: {
+                actionType: "resource",
+                component: false,
+                handler: async (request,response) => {
+                    let links = await link.find();
+                    let count=0;
+                    let maxRequests=50;
+                    const crawlering = new PlaywrightCrawler({
+                        requestHandler: async ({ page, request, enqueueLinks }) => {
+                        count++;
+                        console.log(`Processing: ${request.url}`);
+                            let heading ="";
+                            let textContent = "";
+                            let listItems = "";
+                            for (const row of await page.getByRole('heading').all())
+                                    heading+=await row.textContent()+" ";
+                            
+                            for (const row of await page.getByRole('paragraph').all())
+                                    textContent+=await row.textContent()+" ";
+                            
+                            for (const row of await page.getByRole('listitem').all())
+                                    listItems+=await row.textContent()+"\n";
+                            
+                            const results = new contentModel({
+                                url: request.url,
+                                content: textContent,
+                                heading: heading,
+                                listItems: listItems,
+                            });
+                            await results.save();
+                            await enqueueLinks();
+                        },
+            
+                    // Let's limit our crawls to make our tests shorter and safer.
+                    maxRequestsPerCrawl: maxRequests||50,
+                });
+                links.map(async (link) => {
+                    maxRequests=link.maxRequests;
+                    await  crawlering.run([link.url]);
+                });
+                // await  crawlering.run([url]);
+                response.status(200).json({
+                    status: "success",
+                    data: {
+                      UrlScraped: count,
+                    },
+                  });
+                 }
+                
+                }
+            },
+        }
       },
       
     ],
@@ -43,20 +105,8 @@ const getAdminRouter = (db, mainRouter) => {
         if (email === adminEmail && adminPass === password) {
           return { email, role: "admin" };
         }
-        // const user = await Admin.findOne({ "admin.email": email });
-
-        // if (user) {
-        //   const matched = await bcrypt.compare(
-        //     password,
-        //     user.admin?.encryptedPassword
-        //   );
-        //   if (matched) {
-        //     return { email, role: "admin" };
-        //   }
-        // }
         return false;
       },
-    //   cookiePassword: process.env.JWT_SECRET,
     },
     null,
     {
