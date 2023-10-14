@@ -7,6 +7,8 @@ services:
 
                 volumes:
                         - certs:/usr/share/elasticsearch/config/certs
+                
+                user: "0"
                 command: > 
                         bash -c '
                                 if [ x${ELASTIC_PASSWORD} == x ]; then
@@ -20,26 +22,28 @@ services:
                                 unzip config/certs/ca.zip -d config/certs
                                 fi
 
+
                                 if [ ! -f config/certs/certs.zip ]; then
                                 echo "Creating certificates"
                                 echo -ne "instances: \n  name: intranetsearchnode\n  dns: \n  - intranetsearchnode\n  - localhost\n  ip: \n  - 127.0.0.1\n" > config/certs/instances.yml
                                 bin/elasticsearch-certutil cert --silent --pem --out config/certs/certs.zip --in config/certs/instances.yml --ca-cert config/certs/ca/ca.crt --ca-key config/certs/ca/ca.key
                                 fi
 
+
                                 echo "Setting file permissions"
                                 chown -R root:root config/certs
-                                find -type d -exec chmod 750 {} \;
-                                find -type f -exec chmod 640 {} \;
+                                find -type d -exec chmod 750 \{\} \;
+                                find -type f -exec chmod 640 \{\} \;
 
                                 echo "Waiting for Elasticsearch availability"
                                 until curl -s --cacert config/certs/ca/ca.crt https://intranetsearchnode:8002 | grep -q "missing authentication credentials"; do
-                                sleep 30
-                                done
+                                sleep 30;
+                                done;
 
                                 echo "Setting kibana_system password"
                                 until curl -s -X POST --cacert config/certs/ca/ca.crt -u "elastic:${ELASTIC_PASSWORD}" ; do
-                                sleep 30
-                                done
+                                sleep 30;
+                                done;
 
                                 echo "All Done"
                                 '
@@ -57,8 +61,23 @@ services:
                         setup:
                                 condition: service_healthy
                 build:
-                        context: .env
+                        context: .
                         dockerfile: Dockerfile
+                environment:
+                        - node.name=intranetsearchnode
+                        - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+                        - bootstrap.memory_lock=true
+                        - xpack.security.enabled=true
+                        - xpack.security.http.ssl.enabled=true
+                        - xpack.security.http.ssl.key=crets/intranetsearchnode/intranetsearchnode.key
+                        - xpack.security.http.ssl.certificate=crets/intranetsearchnode/intranetsearchnode.crt
+                        - xpack.security.http.ssl.certificate_authorities=crets/ca/ca.crt
+                        - xpack.security.transport.ssl.enabled=true
+                        - xpack.security.transport.ssl.verification_mode=certificate
+                        - xpack.security.http.ssl.certificate_authorities=certs/ca/ca.crt
+                        - xpack.security.transport.ssl.key=certs/intranetsearchnode/intranetsearchnode.key
+                        - xpack.security.transport.ssl.certificate=certs/intranetsearchnode/intranetsearchnode.crt
+                        - xpack.license.self_generated.type=trial
                 extra_hosts:
                         - "host.docker.internal:host-gateway"
                 volumes:
