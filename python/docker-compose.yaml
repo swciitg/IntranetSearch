@@ -8,10 +8,10 @@ services:
                 extra_hosts:
                         - "host.docker.internal:host-gateway"
                 volumes:
-                        - intranetsearchpublic:/home/node/app/public
-                        - intranetsearchimages:/home/node/app/image_save_folder
+                        - intranetsearchpublic:/app/public
+                        - intranetsearchimages:/app/image_save_folder
                 ports:
-                        - "9011:5000"
+                        - "9020:8002"
                 env_file:
                         - .env
         # database:
