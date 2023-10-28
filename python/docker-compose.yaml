@@ -1,98 +1,24 @@
 version: "3.3"
 
 services:
-        setup:
-
-                image: docker.elastic.co/elasticsearch/elasticsearch:8.7.0
-
-                volumes:
-                        - certs:/usr/share/elasticsearch/config/certs
-                
-                user: "0"
-                command: > 
-                        bash -c '
-                                if [ x${ELASTIC_PASSWORD} == x ]; then
-                                echo "Set the ELASTIC_PASSWORD environment variable in the .env file"
-                                exit 1
-                                fi
-
-                                if [ ! -f config/certs/ca.zip ]; then
-                                echo "Creating CA"
-                                bin/elasticsearch-certutil ca --silent --pem -out config/certs/ca.zip
-                                unzip config/certs/ca.zip -d config/certs
-                                fi
-
-
-                                if [ ! -f config/certs/certs.zip ]; then
-                                echo "Creating certificates"
-                                echo -ne "instances: \n  name: intranetsearchnode\n  dns: \n  - intranetsearchnode\n  - localhost\n  ip: \n  - 127.0.0.1\n" > config/certs/instances.yml
-                                bin/elasticsearch-certutil cert --silent --pem --out config/certs/certs.zip --in config/certs/instances.yml --ca-cert config/certs/ca/ca.crt --ca-key config/certs/ca/ca.key
-                                fi
-
-
-                                echo "Setting file permissions"
-                                chown -R root:root config/certs
-                                find -type d -exec chmod 750 \{\} \;
-                                find -type f -exec chmod 640 \{\} \;
-
-                                echo "Waiting for Elasticsearch availability"
-                                until curl -s --cacert config/certs/ca/ca.crt https://intranetsearchnode:8002 | grep -q "missing authentication credentials"; do
-                                sleep 30;
-                                done;
-
-                                echo "Setting kibana_system password"
-                                until curl -s -X POST --cacert config/certs/ca/ca.crt -u "elastic:${ELASTIC_PASSWORD}" ; do
-                                sleep 30;
-                                done;
-
-                                echo "All Done"
-                                '
-
-                healthcheck:
-
-                        test: ["CMD-SHELL", "[ -f config/certs/intranetsearchnode/intranetsearchnode.crt ]"]
-                        interval: 1s
-                        timeout: 5s
-                        retries: 128
-
-
         intranetsearchnode:
-                depends_on:
-                        setup:
-                                condition: service_healthy
                 build:
                         context: .
                         dockerfile: Dockerfile
-                environment:
-                        - node.name=intranetsearchnode
-                        - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
-                        - bootstrap.memory_lock=true
-                        - xpack.security.enabled=true
-                        - xpack.security.http.ssl.enabled=true
-                        - xpack.security.http.ssl.key=crets/intranetsearchnode/intranetsearchnode.key
-                        - xpack.security.http.ssl.certificate=crets/intranetsearchnode/intranetsearchnode.crt
-                        - xpack.security.http.ssl.certificate_authorities=crets/ca/ca.crt
-                        - xpack.security.transport.ssl.enabled=true
-                        - xpack.security.transport.ssl.verification_mode=certificate
-                        - xpack.security.http.ssl.certificate_authorities=certs/ca/ca.crt
-                        - xpack.security.transport.ssl.key=certs/intranetsearchnode/intranetsearchnode.key
-                        - xpack.security.transport.ssl.certificate=certs/intranetsearchnode/intranetsearchnode.crt
-                        - xpack.license.self_generated.type=trial
                 extra_hosts:
                         - "host.docker.internal:host-gateway"
                 volumes:
-                        - certs:/usr/share/elasticsearch/config/certs
-                        - intranetsearchpublic:/app/public
-                        - intranetsearchimages:/app/image_save_folder
+                        - intranetsearchpublic:/home/node/app/public
+                        - intranetsearchimages:/home/node/app/image_save_folder
                 ports:
-                        - "9020:8002"
+                        - "9011:5000"
+                env_file:
+                        - .env
+        # database:
+        # # image to fetch from docker hub
+        #         image: mcr.microsoft.com/playwright:v1.34.0-jammy
         
 
 volumes:
-        certs:
-                driver: local
         intranetsearchpublic:
         intranetsearchimages:
-
-
-
