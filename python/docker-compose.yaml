@@ -12,11 +12,13 @@ services:
                         - intranetsearchimages:/app/image_save_folder
                 ports:
                         - "9020:8002"
+                env_file:
+                        - .env
+        # database:
+        # # image to fetch from docker hub
+        #         image: mcr.microsoft.com/playwright:v1.34.0-jammy
         
 
 volumes:
         intranetsearchpublic:
         intranetsearchimages:
-
-
-

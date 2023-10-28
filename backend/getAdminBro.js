@@ -51,12 +51,16 @@ const getAdminRouter = (db, mainRouter) => {
                             let listItems = "";
                             for (const row of await page.getByRole('heading').all())
                                     heading+=await row.textContent()+" ";
-                            
+                            heading = heading.replace(/\s+/g, ' ').trim();
+
                             for (const row of await page.getByRole('paragraph').all())
                                     textContent+=await row.textContent()+" ";
-                            
+                            textContent = textContent.replace(/\s+/g, ' ').trim();
+
                             for (const row of await page.getByRole('listitem').all())
                                     listItems+=await row.textContent()+"\n";
+                            listItems = listItems.replace(/\s+/g, ' ').trim();
+                            listItems = listItems.replace('- + हिन्दी', '').trim();
                             
                             const results = new contentModel({
                                 url: request.url,
