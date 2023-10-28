@@ -35,7 +35,7 @@ const getAdminRouter = (db, mainRouter) => {
             },
           },
           actions: {
-            scrape: {
+            scrapeAll: {
                 actionType: "resource",
                 component: false,
                 handler: async (request,response) => {
@@ -88,11 +88,60 @@ const getAdminRouter = (db, mainRouter) => {
                   });
                  }
                 
-                }
+                },
+            scrape: {
+              actionType: "record",
+              component: false,
+              handler: async (request,response,context) => {
+                  let linktoscrape = await link.findById(context.record.params._id);
+                  let count=0;
+                  let maxRequests=Number(linktoscrape.maxRequests);
+                  const crawlering = new PlaywrightCrawler({
+                      requestHandler: async ({ page, request, enqueueLinks }) => {
+                      count++;
+                      console.log(`Processing: ${request.url}`);
+                          let heading ="";
+                          let textContent = "";
+                          let listItems = "";
+                          for (const row of await page.getByRole('heading').all())
+                                  heading+=await row.textContent()+" ";
+                          heading = heading.replace(/\s+/g, ' ').trim();
+
+                          for (const row of await page.getByRole('paragraph').all())
+                                  textContent+=await row.textContent()+" ";
+                          textContent = textContent.replace(/\s+/g, ' ').trim();
+
+                          for (const row of await page.getByRole('listitem').all())
+                                  listItems+=await row.textContent()+"\n";
+                          listItems = listItems.replace(/\s+/g, ' ').trim();
+                          listItems = listItems.replace('- + हिन्दी', '').trim();
+                          
+                          const results = new contentModel({
+                              url: request.url,
+                              content: textContent,
+                              heading: heading,
+                              listItems: listItems,
+                          });
+                          await results.save();
+                          await enqueueLinks();
+                      },
+          
+                  // Let's limit our crawls to make our tests shorter and safer.
+                  maxRequestsPerCrawl: maxRequests||50,
+              });
+              await  crawlering.run([linktoscrape.url]);
+              response.status(200).json({
+                  status: "success",
+                  data: {
+                    UrlScraped: count,
+                  },
+                });
+              
             },
+          }
         }
       },
-      
+    },
     ],
     rootPath: `/admin`,
     loginPath: `/admin/login`,
