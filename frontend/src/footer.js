@@ -1,7 +1,4 @@
-import Insta from './Vector (7).png'
-import Linkedin from './Vector (8).png'
-import X from './Vector (9).png'
-import SWC from './Vector (2).svg'
+//footer
 
 const Footer = () => {
     return (<div class="w-screen bg-secondarycolor dark:bg-primarycolor flex justify-center items-center h-20">

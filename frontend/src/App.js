@@ -11,13 +11,15 @@ import Darkmode from './darkmode'
 
 
 function App() {
-
+//darkmode
   const [darkMode, setDarkMode] = useState(false)
   const toggleDarkMode = () => {
       setDarkMode(!darkMode);
       return(darkMode)
       }
   console.log(darkMode)
+
+  //bookmarks
 
   const [showNewComponent, setShowNewComponent] = useState(false);
 

@@ -1,7 +1,5 @@
-import Mainpic from './mainpicture.png'
-import Icon1 from './icon (4).png'
-import Icon2 from './icon (1).png'
-import Darkicon from './Vector (6).png'
+import Mainpic from './images/mainpicture.png'
+
 import Darkmode from './darkmode'
 import darkmode from './App'
 
@@ -9,7 +7,7 @@ import darkmode from './App'
 
 
 const Content  = () => {
-    var Icon = Icon1
+   
     
 
 
@@ -44,7 +42,7 @@ const Content  = () => {
         <label >
           
         </label>
-    <input placeholder="Search" type="text" class="w-full h-14 rounded-2xl pl-12 absolute text-2xl placeholder-secondarycolor dark:placeholder-primarycolor text-secondarycolor dark:text-primarycolor border-solid  border-secondarycolor dark:border-primarycolor focus:outline-secondarycolor dark:focus:outline-primarycolor  bg-primarycolor dark:bg-secondarycolor ">
+    <input placeholder="Search" type="text" class="w-full h-14 rounded-2xl pl-12 absolute text-2xl placeholder-secondarycolor dark:placeholder-primarycolor text-secondarycolor dark:text-primarycolor  outline-none  bg-primarycolor dark:bg-secondarycolor border-2 focus:border-none ">
       
     </input>
     </div>

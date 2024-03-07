@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import icon from './Vector.png';
 
+//bookmark content
 const Bookmarks = () => {
     const [startIndex, setStartIndex] = useState(0);
 
@@ -30,7 +30,7 @@ const Bookmarks = () => {
             </div>
         ));
     };
-
+//next page and previous page
     const handleNext = () => {
         if (startIndex + 9 < components.length) {
             setStartIndex(startIndex + 9);

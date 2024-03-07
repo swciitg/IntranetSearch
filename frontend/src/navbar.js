@@ -1,15 +1,14 @@
-import SWC from './images 1.png'
-import IITG from './IITG_White 3.png'
-import Bookmarkimg1 from './Vector (10).svg'
-import Bookmarkedimg1 from './Vector (11).png'
-import Bookmarkimg2 from './Vector (1).png'
-import Bookmarkedimg2 from './Vector (5).png'
+//Navbar
+
+import SWC from './images/images 1.png'
+import IITG from './images/IITG_White 3.png'
+
 import React,{useState} from 'react'
 import darkMode from './App'
 
 
 
-
+//bookmark icon 
 
 const Navbar = ({ onIconClick }) => {
   
@@ -27,11 +26,7 @@ const Navbar = ({ onIconClick }) => {
 
 
 
-const handleClick = () => {
-    
 
-
-}
 
 
 
@@ -46,9 +41,10 @@ const handleClick = () => {
 
    
     return ( <div class="w-full h-24 flex flex-row justify-between items-center "  >
-<div class="w-64 h-full flex flex-row justify-around items-center">
+   
+<div class="w-44 h-32 flex flex-row justify-between items-center">
     
-<img src={SWC} class="w-24 h-25">
+<img src={SWC} class="w-20 h-20">
 </img>
 
 <img src={IITG} class="w-20 h-20">
@@ -61,8 +57,8 @@ const handleClick = () => {
     Login
     </p>
     </a>
-    <button onClick={toggleVisibility}>
-   <button onClick={onIconClick} >
+    <button onMouseEnter={toggleVisibility}>
+   <button onMouseEnter={onIconClick} >
 
 
     {!isVisible && (
