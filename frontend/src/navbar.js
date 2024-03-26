@@ -2,26 +2,23 @@
 
 import SWC from './images/images 1.png'
 import IITG from './images/IITG_White 3.png'
+import React, { useState, useEffect } from 'react'
 
-import React,{useState} from 'react'
 import darkMode from './App'
+
 
 
 
 //bookmark icon 
 
-const Navbar = ({ onIconClick }) => {
+const Navbar = ({ onMouseEnter, onMouseLeave ,showNewComponent}) => {
   
+    const [isVisible, setIsVisible] = useState(false);
+    useEffect(() => {
+        setIsVisible(!showNewComponent);
+    }, [showNewComponent]);
 
-    const [isVisible, setIsVisible] = useState(true);
-
-    const toggleVisibility = () => {
-        setIsVisible(prevState => !prevState);
-    };
-
-    
-    const [showNewComponent, setShowNewComponent] = useState(false);
-
+   
 
 
 
@@ -57,11 +54,12 @@ const Navbar = ({ onIconClick }) => {
     Login
     </p>
     </a>
-    <button onMouseEnter={toggleVisibility}>
-   <button onMouseEnter={onIconClick} >
+    <button 
+ >
+   <button onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}  >
 
 
-    {!isVisible && (
+    {!isVisible  && (
    <svg
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
