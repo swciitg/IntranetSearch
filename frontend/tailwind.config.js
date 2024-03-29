@@ -27,7 +27,14 @@ module.exports = {
       width: {
         '560': '560px',
         '580':'580px',
-      }
+      },
+      screens: {
+        'xsm':'525px',
+        'sm': '620px',  // Custom small breakpoint
+        'md': '768px',  // Custom medium breakpoint
+        'lg': '820px', // Custom large breakpoint
+        'xl': '1280px', // Custom extra-large breakpoint
+      },
  
     },
   },

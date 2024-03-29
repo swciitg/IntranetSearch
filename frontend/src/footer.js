@@ -1,7 +1,7 @@
 //footer
 
 const Footer = () => {
-    return (<div class="w-screen bg-secondarycolor dark:bg-primarycolor flex justify-center items-center h-20">
+    return (<div class="w-screen bg-secondarycolor dark:bg-primarycolor flex justify-center items-center h-20 absolute bottom-0">
 <div class="w-11/12 h-14   flex flex-row justify-between items-center">
 <div class="h-full w-44  flex flex-col justify-between">
     <div class="h-3  text-xs  text-white dark:text-secondarycolor">
