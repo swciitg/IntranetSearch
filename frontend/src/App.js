@@ -15,11 +15,11 @@ function App() {
     //search functionality
     const [showSearchCont, setShowSearchCont] = useState(true);
 
-  const handleSearch = (searchText) => {
-    // You can add additional logic here based on user input if needed
-    setShowSearchCont(searchText === ''); // Hide Search_cont when searchText is not empty
-  };
-  
+    const handleSearch = (searchText) => {
+        // You can add additional logic here based on user input if needed
+        setShowSearchCont(searchText === ''); // Hide Search_cont when searchText is not empty
+    };
+
     // darkmode
     const [darkMode, setDarkMode] = useState(false)
     const toggleDarkMode = () => {
@@ -60,7 +60,7 @@ function App() {
     return (
         <>
             <div className={darkMode ? 'dark' : ''}>
-                <div className="flex flex-col justify-between items-center h-screen w-screen bg-primarycolor dark:bg-secondarycolor">
+                <div className="flex w-full flex-col justify-between items-center h-screen  bg-primarycolor dark:bg-secondarycolor">
                     <div className="w-11/12 h-3/4 flex flex-col items-center justify-between">
                         <Navbar onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} showNewComponent={showNewComponent} />
                         <Darkmode onToggle={toggleDarkMode} />
@@ -69,33 +69,38 @@ function App() {
                     <div>
                         {showNewComponent && <Bookmarks onMouseEnter={handleBookmarkEnter} onMouseLeave={handleBookmarkLeave} />}
                     </div>
-                   
 
+
+                </div>
+
+                <div class="App w-full min-h-screen flex flex-col relative bg-primarycolor dark:bg-secondarycolor">
+                    {/*Header-section start*/}
+                    <Header onSearch={handleSearch} />
+                    {/*Header-section Ends*/}
+
+                    {/*Main-container section starts*/}
+
+                    {showSearchCont ? <Search_cont /> : <div class="w-9/12 h-fit mx-auto mt-10 mb-20">
+                        <h1 class="text-3xl h-fit text-secondarycolor dark:text-primarycolor">Top results</h1>
+                        <Result />
+                    </div>}
+
+                    {/*Main-container section ends*/}
+
+
+
+
+                    {/*Footer section starts*/}
+
+                    <Footer />
+                    {/*Footer section ends*/}
                 </div>
             </div>
 
-            <div class="App w-screen h-screen relative bg-[#FFE875]">
-            {/*Header-section start*/}
-            <Header onSearch={handleSearch} />
-            {/*Header-section Ends*/}
-      
-            {/*Main-container section starts*/}
-      
-            {showSearchCont ? <Search_cont /> : <div class="w-9/12 h-fit mx-auto mt-10 mb-20">
-              <h1 class="text-3xl h-fit">Top results</h1>
-              <Result />
-            </div>}
-      
-            {/*Main-container section ends*/}
-      
-      
-      
-      
-            {/*Footer section starts*/}
-      
-            <Footer /> 
-            {/*Footer section ends*/}
-          </div>
+
+
+
+
 
 
         </>

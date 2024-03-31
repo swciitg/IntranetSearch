@@ -51,7 +51,7 @@ const Search_cont = () => {
   return (
     <div class="main-container w-full  flex flex-col  lg:flex-row  lg:justify-center mt-20 h-fit" id="search-section">
       <div class="most-visited-container lg:w-6/12 lg:ml-3 text-center h-full">
-        <h1 class="mb-4 h-fit text-4xl">Most Visited</h1>
+        <h1 class="mb-4 h-fit text-4xl text-secondarycolor dark:text-primarycolor">Most Visited</h1>
         {visitedArray.map((search, id) => (
           <div class="mx-auto bg-white relative hover:bg-[#00AC91] w-11/12 h-16 rounded-xl my-2 inline-block align-middle flex items-center">
             <p class=" h-fit text-black w-5/6">{search.des.slice(0,80)+'...'}</p>
@@ -62,7 +62,7 @@ const Search_cont = () => {
       </div>
 
       <div class="recent-searches-container lg:w-6/12 mt-8 lg:mr-3 lg:mt-0 text-center h-full  ">
-        <h1 class="mb-4 h-fit text-4xl">Recent Searches</h1>
+        <h1 class="mb-4 h-fit text-4xl text-secondarycolor dark:text-primarycolor">Recent Searches</h1>
         {recentArray.map((search, id) => (
           <div class="mx-auto bg-white relative hover:bg-[#00AC91] w-11/12 h-16 rounded-xl my-2 inline-block align-middle flex items-center">
           <p class="bg-inherit h-fit text-black w-5/6">{search.des.slice(0,80)+'...'}</p>

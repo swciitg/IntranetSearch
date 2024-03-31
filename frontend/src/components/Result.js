@@ -38,18 +38,17 @@ const Result = () => {
     searches.map((search, id) => (
       <div
         key={id}
-        className={` w-full h-20 pb-4 border border-[#FFE875] px-4 pt-4 my-6 rounded-lg relative overflow-hidden`}
+        className={`w-full h-20 pb-4 border-2 border-secondarycolor dark:border-primarycolor px-4 pt-4 my-6 rounded-lg relative overflow-hidden`}
         onMouseEnter={() => handleMouseEnter(id)}
         onMouseLeave={handleMouseLeave}
         style={{
           height: hoveredDiv === id ? '30vh' : '',
-          border: hoveredDiv === id ? '2px solid' : '1px solid',
           transitionDuration: '0.4s',
           transitionProperty: 'all',
         }}
       >
-        <p className="w-9/12 h-1/4 text-2xl">{search.topic}</p>
-        <p className="mt-2 w-8/12 h-fit font-thin pt-4">{search.description}</p>
+        <p className="w-9/12 h-1/4 text-2xl text-secondarycolor dark:text-primarycolor font-medium">{search.topic}</p>
+        <p className="mt-2 w-8/12 h-fit font-thin pt-4 text-secondarycolor dark:text-primarycolor font-normal">{search.description}</p>
         <iframe
           src="https://tailwindcss.com/docs/border-radius"
           style={{
