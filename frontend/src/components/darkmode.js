@@ -1,5 +1,5 @@
 
-import darkMode from './App'
+import darkMode from '../App'
 //darkmode icon
 const Darkmode = ({ onToggle }) => {
     return (

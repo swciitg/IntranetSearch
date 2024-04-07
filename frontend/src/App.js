@@ -1,11 +1,11 @@
-import Navbar from './navbar'
-import Footer from './footer'
-import Content from './content'
-import Bookmarks from './bookmarks'
+import Navbar from './components/navbar'
+import Footer from './components/footer'
+import Content from './components/content'
+import Bookmarks from './components/bookmarks'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import React, { useState, useEffect } from 'react'
-import Darkmode from './darkmode'
+import Darkmode from './components/darkmode'
 
 function App() {
     // darkmode

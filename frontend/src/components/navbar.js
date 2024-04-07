@@ -1,10 +1,10 @@
 //Navbar
 
-import SWC from './images/images 1.png'
-import IITG from './images/IITG_White 3.png'
+import SWC from '..//images/images 1.png'
+import IITG from '..//images/IITG_White 3.png'
 import React, { useState, useEffect } from 'react'
 
-import darkMode from './App'
+import darkMode from '../App'
 
 
 
@@ -39,12 +39,12 @@ const Navbar = ({ onMouseEnter, onMouseLeave ,showNewComponent}) => {
    
     return ( <div class="w-full h-24 flex flex-row justify-between items-center "  >
    
-<div class="w-44 h-32 flex flex-row justify-between items-center">
+<div class="w-36 h-32 flex flex-row justify-between items-center">
     
-<img src={SWC} class="w-20 h-20">
+<img src={SWC} class="w-14 h-14">
 </img>
 
-<img src={IITG} class="w-20 h-20">
+<img src={IITG} class="w-68 aspect-square">
 </img>
 </div>
 
