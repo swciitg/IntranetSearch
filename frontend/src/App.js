@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import React, { useState, useEffect } from 'react'
 import Darkmode from './darkmode'
+import MainContent from './components/MainContent'
 
 function App() {
     // darkmode
@@ -56,6 +57,7 @@ function App() {
                 <div>
                     {showNewComponent && <Bookmarks onMouseEnter={handleBookmarkEnter} onMouseLeave={handleBookmarkLeave} />}
                 </div>
+                <MainContent isDark={darkMode} />
                 <Footer />
             </div>
         </div>
